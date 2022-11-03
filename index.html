@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://www/ Develop by yichang https://github.com/reg64 2022-->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Lua web filemanager for NodeMCU</title>		
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+<script>
+$(function() {
+	$("#restart").click(function() {
+		$.ajax({url:"/restart",type:"GET",})	
+	})
+	$("#upload").click(function() {
+		$("#uploadfile").click();
+	})
+	$("#uploadfile").change(function() {
+		$("#form1").submit();
+	})
+	$("#refresh").click(function() {
+		$.ajax({
+			url:"/ls",
+			type:"GET",
+			dataType:"text",
+			success:function(datatext){
+				var data = eval(datatext);
+				var h="<table>";
+				for(var i=0; i<data.length; i++){
+					h += "<tr><td><a href=/ld?name="+data[i][0]+" target=blank>"+data[i][0]+"</a></td>";
+					h += "<td>"+data[i][1]+"</td></tr>";
+				}
+				$("#tbfile")[0].innerHTML = h + "</table>";
+			}
+		})
+	})
+})
+</script>
+</head>
+<body onload="$('#refresh').click();">
+<table><tr><td id="tbfile">File List</td></tr></table>
+<input type="button" id="restart" value="restart" />
+<input type="button" id="upload" value="upload" />
+<input type="button" id="refresh" value="refresh" />
+<form style="display: none;" id="form1" action="/upload" method="post" enctype="multipart/form-data" target="hideframe">
+<input type="file" name="uploadfile" id="uploadfile" />
+</form>
+<iframe style="display: none;" id="hideframe" name="hideframe"></iframe>
+</html>
