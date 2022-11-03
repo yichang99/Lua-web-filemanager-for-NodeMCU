@@ -1,4 +1,4 @@
--- Yichang 2022-11-02 https://github.com/reg64
+-- Yichang 2022-11-02 https://github.com/yichang
 
 cfg={
    ssid="yourssid",
